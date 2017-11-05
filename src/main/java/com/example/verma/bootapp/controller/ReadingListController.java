@@ -1,8 +1,10 @@
 package com.example.verma.bootapp.controller;
 
 import com.example.verma.bootapp.dto.Book;
+import com.example.verma.bootapp.property.AmazonProperties;
 import com.example.verma.bootapp.repository.ReadingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,16 +20,22 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/")
+@ConfigurationProperties(prefix = "amazon")
 public class ReadingListController {
 
     @Autowired
     ReadingListRepository readingListRepository;
+    @Autowired
+    AmazonProperties amazonProperties;
+
 
     @RequestMapping(value = "/{reader}", method = RequestMethod.GET)
     public String readersBook(@PathVariable("reader") String reader, Model model){
         List<Book> readingList = readingListRepository.findByReader(reader);
         if (readingList!=null){
             model.addAttribute("books", readingList);
+            model.addAttribute("reader", reader);
+            model.addAttribute("amazonID", amazonProperties.getAssociateId());
         }
         return "readingList";
     }

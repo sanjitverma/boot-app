@@ -1,0 +1,6 @@
+logging:
+  path: /var/logs
+  file: bookworm.log
+  level:
+    root: WARN
+    org.springframework.security: WARN
