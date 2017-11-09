@@ -20,7 +20,6 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/")
-@ConfigurationProperties(prefix = "amazon")
 public class ReadingListController {
 
     @Autowired

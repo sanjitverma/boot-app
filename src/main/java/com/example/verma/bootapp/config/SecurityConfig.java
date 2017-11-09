@@ -1,8 +1,6 @@
 package com.example.verma.bootapp.config;
 
-import com.example.verma.bootapp.dto.Reader;
 import com.example.verma.bootapp.repository.ReaderRepository;
-import com.sun.tracing.ProbeName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -10,17 +8,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * Created by SANJIT on 03/11/17.
  */
 
+@Profile("development")
 @Configuration
 @EnableWebSecurity
-@Profile("development")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
