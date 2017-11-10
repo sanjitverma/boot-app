@@ -4,6 +4,8 @@ import com.example.verma.bootapp.dto.Book;
 import com.example.verma.bootapp.property.AmazonProperties;
 import com.example.verma.bootapp.repository.ReadingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.metrics.CounterService;
+import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by SANJIT on 31/10/17.
+ * A ‘gauge’ records a single value; and a ‘counter’ records a delta (an increment or decrement)
  */
 
 
@@ -26,6 +29,10 @@ public class ReadingListController {
     ReadingListRepository readingListRepository;
     @Autowired
     AmazonProperties amazonProperties;
+    @Autowired
+    CounterService counterService;
+    @Autowired
+    GaugeService gaugeService;
 
 
     @RequestMapping(value = "/{reader}", method = RequestMethod.GET)
@@ -43,6 +50,8 @@ public class ReadingListController {
     public String addToReadingList(@PathVariable("reader") String reader, Book book){
         book.setReader(reader);
         readingListRepository.save(book);
+        counterService.increment("books.save");
+        gaugeService.submit("books.last.saved",System.currentTimeMillis());
         return "redirect:/{reader}";
     }
 }

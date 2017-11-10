@@ -3,12 +3,14 @@ package com.example.verma.bootapp.controller;
 import com.example.verma.bootapp.BootAppApplication;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
@@ -19,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by SANJIT on 09/11/17.
  */
+
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = BootAppApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

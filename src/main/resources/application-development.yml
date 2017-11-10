@@ -1,4 +1,4 @@
 logging:
   level:
     root: DEBUG
-    org.springframework.security: DEBUG
+    org.springframework.security: INFO
