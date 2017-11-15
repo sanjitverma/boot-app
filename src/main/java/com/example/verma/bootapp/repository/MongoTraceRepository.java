@@ -13,8 +13,9 @@ import java.util.Map;
 /**
  * Created by SANJIT on 10/11/17.
  */
+
 @Service
-public class MongoTraceRepository implements TraceRepository {
+public class MongoTraceRepository {/*implements TraceRepository {
 
     @Autowired
     MongoOperations mongoOperations;
@@ -27,5 +28,5 @@ public class MongoTraceRepository implements TraceRepository {
     @Override
     public void add(Map<String, Object> traceinfo) {
         mongoOperations.save(new Trace(new Date(), traceinfo));
-    }
+    }*/
 }

@@ -4,3 +4,16 @@ logging:
   level:
     root: WARN
     org.springframework.security: WARN
+
+---
+
+spring:
+    profiles: production
+    datasource:
+       url: jdbc:postgresql://localhost:5432/readinglist
+       username: sa
+       password:
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+           ddl-auto: none
