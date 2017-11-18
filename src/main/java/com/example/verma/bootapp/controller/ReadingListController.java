@@ -1,18 +1,19 @@
 package com.example.verma.bootapp.controller;
 
 import com.example.verma.bootapp.dto.Book;
+import com.example.verma.bootapp.exception.EmptyBookListForUserException;
 import com.example.verma.bootapp.property.AmazonProperties;
 import com.example.verma.bootapp.repository.ReadingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class ReadingListController {
     GaugeService gaugeService;
 
 
-    @RequestMapping(value = "/{reader}", method = RequestMethod.GET)
+    @RequestMapping(value = "/website/{reader}", method = RequestMethod.GET)
     public String readersBook(@PathVariable("reader") String reader, Model model){
         List<Book> readingList = readingListRepository.findByReader(reader);
         if (readingList!=null){
@@ -46,12 +47,32 @@ public class ReadingListController {
         return "readingList";
     }
 
-    @RequestMapping(value = "/{reader}", method = RequestMethod.POST)
+    @RequestMapping(value = "/website/{reader}", method = RequestMethod.POST)
     public String addToReadingList(@PathVariable("reader") String reader, Book book){
         book.setReader(reader);
         readingListRepository.save(book);
         counterService.increment("books.save");
         gaugeService.submit("books.last.saved",System.currentTimeMillis());
-        return "redirect:/{reader}";
+        return "redirect:/website/{reader}";
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/{reader}", method = RequestMethod.GET)
+    public List<Book> getBook(@PathVariable("reader") String reader, Model model){
+        List<Book> readingList = readingListRepository.findByReader(reader);
+        if(readingList.isEmpty()){
+            throw new EmptyBookListForUserException("Book Not found for User");
+        }
+        return readingList;
+    }
+
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/{reader}", method = RequestMethod.POST)
+    public void addBook(@PathVariable("reader") String reader, @RequestBody Book book){
+        book.setReader(reader);
+        readingListRepository.save(book);
     }
 }

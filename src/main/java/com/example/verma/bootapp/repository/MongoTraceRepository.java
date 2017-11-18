@@ -3,7 +3,6 @@ package com.example.verma.bootapp.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.trace.Trace;
 import org.springframework.boot.actuate.trace.TraceRepository;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

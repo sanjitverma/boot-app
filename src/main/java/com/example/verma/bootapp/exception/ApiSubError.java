@@ -1,10 +1,16 @@
 package com.example.verma.bootapp.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.io.Serializable;
+
 /**
  * Created by SANJIT on 15/11/17.
  */
 
-public class ApiSubError {
+@JsonInclude
+public class ApiSubError implements Serializable{
+
     private String object;
     private String field;
     private Object rejectedValue;

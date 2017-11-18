@@ -2,18 +2,18 @@ logging:
   path: /var/logs
   file: bookworm.log
   level:
-    root: WARN
-    org.springframework.security: WARN
+    root: INFO
+    org.springframework.security: INFO
 
 ---
 
 spring:
     profiles: production
     datasource:
-       url: jdbc:postgresql://localhost:5432/readinglist
-       username: sa
-       password:
+       url: jdbc:mysql://localhost:3306/readinglist
+       username: root
+       password: root
     jpa:
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      database-platform: org.hibernate.dialect.MySQLDialect
       hibernate:
            ddl-auto: none

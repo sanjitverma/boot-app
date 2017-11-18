@@ -2,10 +2,13 @@ package com.example.verma.bootapp.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +16,10 @@ import java.util.List;
 /**
  * Created by SANJIT on 15/11/17.
  */
+
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
-public class ApiError {
+@JsonTypeIdResolver(LowerCaseClassNameResolver.class)
+public class ApiError implements Serializable{
 
     private String errorMessage;
     private HttpStatus status;
@@ -81,5 +86,24 @@ public class ApiError {
             this.subErrorList = new ArrayList<>();
 
         return subErrorList;
+    }
+}
+
+
+class LowerCaseClassNameResolver extends TypeIdResolverBase {
+
+    @Override
+    public String idFromValue(Object value) {
+        return value.getClass().getSimpleName().toLowerCase();
+    }
+
+    @Override
+    public String idFromValueAndType(Object value, Class<?> suggestedType) {
+        return idFromValue(value);
+    }
+
+    @Override
+    public JsonTypeInfo.Id getMechanism() {
+        return JsonTypeInfo.Id.CUSTOM;
     }
 }
